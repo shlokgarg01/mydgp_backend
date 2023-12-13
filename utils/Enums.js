@@ -1,0 +1,28 @@
+module.exports = {
+  USER_ROLES: {
+    USER: "user",
+    ADMIN: "admin",
+    SERVICE_PROVIDER: "service_provider"
+  },
+  COUPON_TYPE: {
+    PERCENTAGE: "PERCENTAGE",
+    FLAT_VALUE: "FLAT_VALUE",
+  },
+  ORDER_STATUS: {
+    PLACED: "PLACED",
+    ACCEPTED: "ACCEPTED",
+    ONGOING: "ONGOING",
+    CLOSED: "CLOSED",
+    CANCELLED: "CANCELLED"
+  },
+  PAYMENT_STATUS: {
+    PAID: "PAID",
+    NOT_PAID: "NOT_PAID"
+  },
+  LEAVE_STATUS: {
+    PENDING: "PENDING",
+    APPROVED: "APPROVED",
+    REJECTED: "REJECTED",
+    CANCELLED: "CANCELLED"
+  }
+};
