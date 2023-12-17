@@ -12,6 +12,7 @@ const AddressRoutes = require("./routes/AddressRoutes")
 const BookingRoutes = require("./routes/BookingRoutes")
 const ServiceRoutes = require("./routes/ServiceRoutes")
 const BookingRequestRoutes = require('./routes/BookingRequestRoutes')
+const LeaveRoutes = require('./routes/LeaveRoutes.js')
 
 app.use(morgan("combined"));
 
@@ -55,6 +56,7 @@ app.use("/api/v1", AddressRoutes)
 app.use("/api/v1", BookingRoutes)
 app.use('/api/v1', ServiceRoutes)
 app.use('/api/v1', BookingRequestRoutes)
+app.use('/api/v1', LeaveRoutes)
 
 // middleware for errors
 app.use(errorMiddleware);

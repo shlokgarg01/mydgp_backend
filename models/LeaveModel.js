@@ -20,6 +20,10 @@ const leaveModel = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    days: {
+      type: Number,
+      required: true
+    },
     status: {
       type: String,
       required: true,

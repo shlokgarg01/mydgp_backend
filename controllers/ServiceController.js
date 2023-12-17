@@ -64,12 +64,13 @@ exports.getServiceDetails = catchAsyncErrors(async (req, res, next) => {
 
 // get all services
 exports.getAllServices = catchAsyncErrors(async (req, res, next) => {
-  const services = await Service.find().select("name")
-  console.log("=======================", services)
-  for (let i=0;i<services.length;++i) {
-    services[i]['value'] = services[i].name
-  }
-  console.log("---------------------------", services)
+  let services = await Service.find()
+
+  services = services.map(service => ({
+    ...service.toObject(),
+    label: service.name,
+    value: service._id
+  }));
 
   res.status(200).json({
     success: true,

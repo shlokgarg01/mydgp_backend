@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema(
       ref: "Service",
       required: false
     },
+    totalEarnings: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

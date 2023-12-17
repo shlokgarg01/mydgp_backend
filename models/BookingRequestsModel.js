@@ -22,6 +22,11 @@ const bookingRequestsSchema = new mongoose.Schema(
       ref: "Booking",
       required: true,
     },
+    address: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Address',
+      required: true
+    }
   },
   {
     timestamps: {

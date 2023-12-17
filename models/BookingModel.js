@@ -13,6 +13,20 @@ const bookingModel = new mongoose.Schema(
       ref: "User",
       required: false
     },
+    service: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Service",
+      required: false
+    },
+    date: {
+      type: Date,
+      required: [true, "Booking Date is required"]
+    },
+    hours: {
+      type: Number,
+      required: false,
+      default: 1
+    },
     address: {
       type: mongoose.Schema.ObjectId,
       ref: 'Address',
@@ -59,7 +73,7 @@ const bookingModel = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: Enums.ORDER_STATUS.PLACED,
+      default: Enums.BOOKING_STATUS.PLACED,
     }
   },
   {

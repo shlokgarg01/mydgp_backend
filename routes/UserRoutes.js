@@ -6,6 +6,7 @@ const {
   sendOTPForLogin,
   authenticateUserViaOTPForLogin,
   getUserDetails,
+  updateProfile,
 } = require("../controllers/UserController");
 const { isAuthenticatedUser } = require("../middleware/Auth");
 const router = express.Router();
@@ -18,5 +19,6 @@ router.route("/login/otp/verify").post(authenticateUserViaOTPForLogin);
 router.route("/logout").get(logout);
 
 router.route("/me").get(isAuthenticatedUser, getUserDetails);
+router.route("/me/update").put(isAuthenticatedUser, updateProfile);
 
 module.exports = router;
