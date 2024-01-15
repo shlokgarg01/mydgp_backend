@@ -6,6 +6,7 @@ const app = express();
 require('dotenv').config()
 const errorMiddleware = require("./middleware/error");
 const connectDatabase = require("./config/database.js")
+const cloudinary = require('cloudinary')
 
 const UserRoutes = require('./routes/UserRoutes')
 const AddressRoutes = require("./routes/AddressRoutes")
@@ -13,6 +14,8 @@ const BookingRoutes = require("./routes/BookingRoutes")
 const ServiceRoutes = require("./routes/ServiceRoutes")
 const BookingRequestRoutes = require('./routes/BookingRequestRoutes')
 const LeaveRoutes = require('./routes/LeaveRoutes.js')
+const redeemRoutes = require('./routes/RedeemRoutes.js')
+const redeemRequestRoutes = require('./routes/RedeemRequestRoutes.js')
 
 app.use(morgan("combined"));
 
@@ -27,6 +30,12 @@ const server = app.listen(process.env.PORT, ()=>{
   console.log(`Server is running on PORT ${process.env.PORT}`)
 })
 connectDatabase()
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 // Handling Uncaught Exception
 process.on("uncaughtException", err => {
@@ -57,6 +66,8 @@ app.use("/api/v1", BookingRoutes)
 app.use('/api/v1', ServiceRoutes)
 app.use('/api/v1', BookingRequestRoutes)
 app.use('/api/v1', LeaveRoutes)
+app.use('/api/v1', redeemRoutes)
+app.use('/api/v1', redeemRequestRoutes)
 
 // middleware for errors
 app.use(errorMiddleware);

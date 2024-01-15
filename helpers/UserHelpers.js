@@ -6,6 +6,7 @@ const getAvailableServiceProviders = async (date, service) => {
   const service_providers = await User.find({
     role: Enums.USER_ROLES.SERVICE_PROVIDER,
     service,
+    status: Enums.SERVICE_PROVIDER_STATUS.ACTIVE
   }).sort("createdAt");
 
   let leaves = await Leave.find({

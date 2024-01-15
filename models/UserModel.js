@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
-const Enums = require("../utils/Enums")
+const Enums = require("../utils/Enums");
 
 const userSchema = new mongoose.Schema(
   {
@@ -16,6 +16,14 @@ const userSchema = new mongoose.Schema(
       default: "dummyemail@mydgp.com",
       unique: true,
       validate: [validator.isEmail, "Please enter a valid email"],
+    },
+    avatar: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
     },
     contactNumber: {
       type: String,
@@ -46,12 +54,15 @@ const userSchema = new mongoose.Schema(
     service: {
       type: mongoose.Schema.ObjectId,
       ref: "Service",
-      required: false
+      required: false,
+    },
+    status: {
+      type: String,
     },
     totalEarnings: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -73,10 +84,19 @@ userSchema.methods.getJWTToken = function () {
 
 // service is required for role === service_provider
 userSchema.pre("save", function (next) {
-  if (this.role === Enums.USER_ROLES.SERVICE_PROVIDER && (this.service === "" || this.service === undefined)) {
+  if (
+    this.role === Enums.USER_ROLES.SERVICE_PROVIDER &&
+    (this.service === "" || this.service === undefined)
+  ) {
     error = new Error("Service is required");
     next(error);
   }
+
+  this.status =
+    this.role === Enums.USER_ROLES.SERVICE_PROVIDER
+      ? Enums.SERVICE_PROVIDER_STATUS.INACTIVE
+      : Enums.SERVICE_PROVIDER_STATUS.ACTIVE;
+
   next();
 });
 

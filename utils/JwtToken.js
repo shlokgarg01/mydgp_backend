@@ -1,6 +1,12 @@
+const { getDaysFromCreatedAt } = require("./orderUtils");
+const Booking = require('../models/BookingModel');
+const Enums = require("./Enums");
+
 // creating JWT Token & saving it to cookie
-const sendToken = (user, statusCode, res) => {
+const sendToken = async (user, statusCode, res) => {
   const token = user.getJWTToken();
+  const ordersCount = await Booking.countDocuments({ serviceProvider: user._id, status: Enums.BOOKING_STATUS.CLOSED })
+  user = {...user._doc, days: getDaysFromCreatedAt(user.createdAt), orders: ordersCount}
 
   // options for cookies
   const options = {

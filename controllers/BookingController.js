@@ -1,6 +1,8 @@
 const Booking = require("../models/BookingModel");
 const BookingRequest = require("../models/BookingRequestsModel");
 const User = require("../models/UserModel");
+const Redeem = require("../models/RedeemModel");
+
 const catchAsyncErrors = require("../middleware/CatchAsyncErrors");
 const { getAvailableServiceProviders } = require("../helpers/UserHelpers");
 const Enums = require("../utils/Enums");
@@ -101,14 +103,23 @@ exports.updateBookingStatus = catchAsyncErrors(async (req, res, next) => {
       { new: true, runValidators: true, useFindAndModify: false }
     );
 
-    // Updating total Earnings on the User
     if (newStatus === Enums.BOOKING_STATUS.CLOSED) {
+      // Updating total Earnings on the User
       let totalEarnings = (req.user.totalEarnings || 0) + booking.totalPrice;
       await User.findByIdAndUpdate(
         req.user._id,
         { totalEarnings },
         { new: true, runValidators: true, useFindAndModify: false }
       );
+
+      // updating the amount in Redeem model
+      let redeem = await Redeem.findOneAndUpdate(
+        { serviceProvider: req.user._id },
+        { $inc: { amountToBeRedeemed: 10 } },
+        { new: true }
+      ); // TODO - update the logic to add the amount
+
+      console.log("=======================", redeem)
     }
   } else {
     return next(
